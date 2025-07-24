@@ -6,159 +6,207 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f3f6fa;
+      background: #f9f9f9;
+      color: #333;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #2b4c7e;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
     .malla {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(7, 1fr);
       gap: 20px;
     }
-    .ciclo {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .periodo {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 10px;
     }
-    .ciclo h2 {
+    .periodo h2 {
+      font-size: 1rem;
       text-align: center;
-      color: #3d6ba7;
-      margin-bottom: 15px;
+      background: #2e86c1;
+      color: white;
+      padding: 8px;
+      border-radius: 8px;
     }
     .materia {
-      padding: 10px;
-      margin: 5px 0;
+      margin: 8px 0;
+      padding: 6px;
       border-radius: 6px;
-      background-color: #e2eefc;
+      background: #eaf2f8;
       cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.9em;
       position: relative;
-      transition: background-color 0.3s;
+    }
+    .materia:hover {
+      background: #d6eaf8;
     }
     .materia.aprobada {
-      background-color: #b6e2a1;
+      background: #d5f5e3 !important;
       text-decoration: line-through;
     }
     .materia.bloqueada {
-      background-color: #ddd;
+      background: #f5b7b1 !important;
       cursor: not-allowed;
-      opacity: 0.7;
+      opacity: 0.6;
+    }
+    .materia[title] {
+      position: relative;
     }
     .materia[title]:hover::after {
       content: attr(title);
       position: absolute;
-      top: -5px;
-      left: 105%;
+      left: 0;
+      top: 100%;
       background: #333;
       color: #fff;
-      padding: 5px 8px;
-      font-size: 12px;
+      font-size: 0.75em;
+      padding: 5px;
       border-radius: 4px;
-      white-space: nowrap;
-      z-index: 10;
+      white-space: pre;
+      z-index: 100;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
+  <h1>Malla Curricular - Contaduría Pública y Finanzas (UNAH)</h1>
+  <div class="malla" id="malla"></div>
 
-<h1>Malla Curricular - Contaduría Pública y Finanzas (UNAH)</h1>
+  <script>
+    const malla = {
+      "Primer Período": [
+        { id: "FF-101", nombre: "Filosofía" },
+        { id: "HH-101", nombre: "Historia de Honduras" },
+        { id: "DET-175", nombre: "Métodos Cuantitativos I" },
+        { id: "EG-011", nombre: "Español General" },
+        { id: "SC-101", nombre: "Sociología" }
+      ],
+      "Segundo Período": [
+        { id: "EG-025", nombre: "Redacción General", requiere: ["EG-011"] },
+        { id: "DET-280", nombre: "Métodos Cuantitativos II", requiere: ["DET-175"] },
+        { id: "BI-130", nombre: "Educación Ambiental" },
+        { id: "RR-150", nombre: "Educación Artística" },
+        { id: "CF-171", nombre: "Cultura Física" },
+        { id: "CE-020", nombre: "Principios de Economía", requiere: ["DET-175"] }
+      ],
+      "Tercer Período": [
+        { id: "CPE-0103", nombre: "Derecho Mercantil y Laboral", requiere: ["SC-101"] },
+        { id: "CPE-0203", nombre: "Contabilidad I" },
+        { id: "DET-385", nombre: "Métodos Cuantitativos III", requiere: ["DET-280"] },
+        { id: "CE-084", nombre: "Estadística I", requiere: ["CE-020", "DET-280"] },
+        { id: "IN-101", nombre: "Inglés I" }
+      ],
+      "Cuarto Período": [
+        { id: "CPE-0304", nombre: "Contabilidad II", requiere: ["CPE-0203"] },
+        { id: "CPE-0404", nombre: "Administración", requiere: ["CPE-0103"] },
+        { id: "CE-075", nombre: "Macroeconomía", requiere: ["CE-020"] },
+        { id: "CE-094", nombre: "Matemática Financiera", requiere: ["DET-385"] },
+        { id: "IN-102", nombre: "Inglés II", requiere: ["IN-101"] }
+      ],
+      "Quinto Período": [
+        { id: "CPE-0505", nombre: "Contabilidad III", requiere: ["CPE-0304"] },
+        { id: "CPE-0605", nombre: "Tecnología de Información", requiere: ["CPE-0304"] },
+        { id: "IN-103", nombre: "Inglés III", requiere: ["IN-102"] },
+        { id: "AGE-137", nombre: "Gerencia de Negocios", requiere: ["CPE-0404"] },
+        { id: "AGE-113", nombre: "Desarrollo Gerencial", requiere: ["CPE-0404"] }
+      ],
+      "Sexto Período": [
+        { id: "CPE-0906", nombre: "Contabilidad de Sociedades", requiere: ["CPE-0505"] },
+        { id: "CPE-1006", nombre: "Costos Industriales", requiere: ["CPE-0505"] },
+        { id: "AGE-194", nombre: "Finanzas Públicas", requiere: ["CPE-0505"] },
+        { id: "AGE-113", nombre: "Desarrollo de Capital Humano", requiere: ["AGE-113"] }
+      ],
+      "Séptimo Período": [
+        { id: "CPE-1207", nombre: "Contabilidad Avanzada", requiere: ["CPE-0906"] },
+        { id: "CPE-1307", nombre: "Costos Gerenciales", requiere: ["CPE-1006"] },
+        { id: "CPE-1407", nombre: "Finanzas Corporativas", requiere: ["AGE-194"] },
+        { id: "CPE-1507", nombre: "Contabilidad Gubernamental", requiere: ["CPE-0906"] }
+      ],
+      "Octavo Período": [
+        { id: "CPE-1608", nombre: "Contabilidad Gerencial", requiere: ["CPE-1307"] },
+        { id: "CPE-1708", nombre: "Informática Aplicada", requiere: ["CPE-1507"] },
+        { id: "CPE-1808", nombre: "Fundamentos de Auditoría", requiere: ["CPE-1407"] }
+      ],
+      "Noveno Período": [
+        { id: "CPE-1909", nombre: "Seminario Tributario", requiere: ["CPE-1808"] },
+        { id: "CPE-2009", nombre: "Métodos y Técnicas de Investigación", requiere: ["CE-176"] },
+        { id: "CPE-2109", nombre: "Auditoría Financiera", requiere: ["CPE-1808"] }
+      ],
+      "Décimo Período": [
+        { id: "CPE-2209", nombre: "Estrategias Financieras", requiere: ["CPE-2009"] },
+        { id: "CPE-2309", nombre: "Organización Administrativa", requiere: ["CE-094"] },
+        { id: "CPE-2409", nombre: "Contabilidad Internacional", requiere: ["CPE-2009"] },
+        { id: "CPE-2509", nombre: "Auditoría Interna", requiere: ["CPE-2109"] }
+      ],
+      "Undécimo Período": [
+        { id: "CPE-2611", nombre: "Sistema de Gestión de Riesgos", requiere: ["CPE-2410"] },
+        { id: "CPE-2711", nombre: "Normativa Contable Nacional", requiere: ["CPE-2510"] },
+        { id: "CPE-2811", nombre: "Auditoría de Entidades Reguladas", requiere: ["CPE-2510"] },
+        { id: "CPE-2911", nombre: "Ética Profesional", requiere: ["CPE-2510"] }
+      ],
+      "Duodécimo Período": [
+        { id: "CPE-3012", nombre: "Evaluación de Proyectos de Inversión", requiere: ["CPE-2811"] },
+        { id: "CPE-3112", nombre: "Investigación Financiera", requiere: ["CPE-2711"] },
+        { id: "CPE-3212", nombre: "Auditoría de Sistemas Informáticos", requiere: ["CPE-2811"] },
+        { id: "CPE-3312", nombre: "Gestión Integral de Riesgo", requiere: ["CPE-2611"] }
+      ],
+      "Décimo Tercer Período": [
+        { id: "CPE-3413", nombre: "Proyecto de Investigación", requiere: ["CPE-3012", "CPE-3112", "CPE-3212", "CPE-3312"] }
+      ]
+    };
 
-<div class="malla" id="malla"></div>
+    const aprobadas = JSON.parse(localStorage.getItem("materiasAprobadas") || "[]");
 
-<script>
-const materias = {
-  "1er Ciclo": [
-    { id: "metcuan1", nombre: "Métodos Cuantitativos I" },
-    { id: "conta1", nombre: "Contabilidad I" },
-    { id: "introeco", nombre: "Introducción a la Economía" }
-  ],
-  "2do Ciclo": [
-    { id: "metcuan2", nombre: "Métodos Cuantitativos II", requiere: ["metcuan1"] },
-    { id: "conta2", nombre: "Contabilidad II", requiere: ["conta1"] },
-    { id: "micro", nombre: "Microeconomía", requiere: ["introeco"] }
-  ],
-  "3er Ciclo": [
-    { id: "costos1", nombre: "Contabilidad de Costos I", requiere: ["conta2"] },
-    { id: "macro", nombre: "Macroeconomía", requiere: ["micro"] }
-  ]
-};
+    function crearMalla() {
+      const contenedor = document.getElementById("malla");
+      contenedor.innerHTML = "";
 
-const aprobadas = JSON.parse(localStorage.getItem("materiasAprobadas") || "[]");
+      Object.entries(malla).forEach(([periodo, materias]) => {
+        const div = document.createElement("div");
+        div.className = "periodo";
+        div.innerHTML = `<h2>${periodo}</h2>`;
 
-function guardarProgreso() {
-  localStorage.setItem("materiasAprobadas", JSON.stringify(aprobadas));
-}
+        materias.forEach(mat => {
+          const el = document.createElement("div");
+          el.className = "materia";
+          el.dataset.id = mat.id;
+          el.textContent = `${mat.id} - ${mat.nombre}`;
 
-function crearMateria(materia) {
-  const div = document.createElement("div");
-  div.className = "materia";
-  div.textContent = materia.nombre;
+          const requisitos = mat.requiere || [];
+          const faltantes = requisitos.filter(r => !aprobadas.includes(r));
 
-  const requisitos = materia.requiere || [];
-  const faltantes = requisitos.filter(req => !aprobadas.includes(req));
+          if (aprobadas.includes(mat.id)) el.classList.add("aprobada");
+          else if (faltantes.length) {
+            el.classList.add("bloqueada");
+            el.title = "Requiere: " + faltantes.join(", ");
+          }
 
-  if (aprobadas.includes(materia.id)) {
-    div.classList.add("aprobada");
-  } else if (faltantes.length > 0) {
-    div.classList.add("bloqueada");
-    const nombres = faltantes.map(id => buscarNombreMateria(id)).join(", ");
-    div.setAttribute("title", `Requiere: ${nombres}`);
-  }
+          el.addEventListener("click", () => {
+            if (el.classList.contains("bloqueada")) return;
+            const id = mat.id;
+            const index = aprobadas.indexOf(id);
+            if (index === -1) aprobadas.push(id);
+            else aprobadas.splice(index, 1);
+            localStorage.setItem("materiasAprobadas", JSON.stringify(aprobadas));
+            crearMalla();
+          });
 
-  div.addEventListener("click", () => {
-    if (div.classList.contains("bloqueada")) return;
+          div.appendChild(el);
+        });
 
-    if (aprobadas.includes(materia.id)) {
-      aprobadas.splice(aprobadas.indexOf(materia.id), 1);
-      div.classList.remove("aprobada");
-    } else {
-      aprobadas.push(materia.id);
-      div.classList.add("aprobada");
+        contenedor.appendChild(div);
+      });
     }
 
-    guardarProgreso();
-    renderMalla(); // Volver a renderizar para activar nuevas materias
-  });
-
-  return div;
-}
-
-function buscarNombreMateria(id) {
-  for (let ciclo in materias) {
-    const match = materias[ciclo].find(m => m.id === id);
-    if (match) return match.nombre;
-  }
-  return "Materia desconocida";
-}
-
-function renderMalla() {
-  const contenedor = document.getElementById("malla");
-  contenedor.innerHTML = "";
-
-  for (let ciclo in materias) {
-    const divCiclo = document.createElement("div");
-    divCiclo.className = "ciclo";
-
-    const titulo = document.createElement("h2");
-    titulo.textContent = ciclo;
-    divCiclo.appendChild(titulo);
-
-    materias[ciclo].forEach(materia => {
-      const divMateria = crearMateria(materia);
-      divCiclo.appendChild(divMateria);
-    });
-
-    contenedor.appendChild(divCiclo);
-  }
-}
-
-renderMalla();
-</script>
-
+    crearMalla();
+  </script>
 </body>
 </html>
+
