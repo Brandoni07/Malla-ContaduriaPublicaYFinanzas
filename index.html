@@ -98,67 +98,70 @@
       ],
       "Tercer Período": [
         { id: "CPE-0103", nombre: "Derecho Mercantil y Laboral", requiere: ["SC-101"] },
-        { id: "CPE-0203", nombre: "Contabilidad I" },
+        { id: "CPE-0203", nombre: "Introducción a la contabilidad" },
         { id: "DET-385", nombre: "Métodos Cuantitativos III", requiere: ["DET-280"] },
-        { id: "CE-084", nombre: "Estadística I", requiere: ["CE-020", "DET-280"] },
+        { id: "CE-084", nombre: "Microeconomía I", requiere: ["CE-020", "DET-280"] },
         { id: "IN-101", nombre: "Inglés I" }
       ],
       "Cuarto Período": [
-        { id: "CPE-0304", nombre: "Contabilidad II", requiere: ["CPE-0203"] },
+        { id: "CPE-0304", nombre: "Contabilidad Financiera I", requiere: ["CPE-0203"] },
         { id: "CPE-0404", nombre: "Administración", requiere: ["CPE-0103"] },
         { id: "CE-075", nombre: "Macroeconomía", requiere: ["CE-020"] },
         { id: "CE-094", nombre: "Matemática Financiera", requiere: ["DET-385"] },
         { id: "IN-102", nombre: "Inglés II", requiere: ["IN-101"] }
       ],
       "Quinto Período": [
-        { id: "CPE-0505", nombre: "Contabilidad III", requiere: ["CPE-0304"] },
-        { id: "CPE-0605", nombre: "Tecnología de Información", requiere: ["CPE-0304"] },
-        { id: "IN-103", nombre: "Inglés III", requiere: ["IN-102"] },
-        { id: "AGE-137", nombre: "Gerencia de Negocios", requiere: ["CPE-0404"] },
-        { id: "AGE-113", nombre: "Desarrollo Gerencial", requiere: ["CPE-0404"] }
+        { id: "CPE-0505", nombre: "Contabilidad Financiera II", requiere: ["CPE-0304"] },
+        { id: "CPE-0605", nombre: "Tecnología de Información y Comunicación", requiere: ["CPE-0304"] },
+        { id: "CPE-0705", nombre: "Derecho Administrativo", requiere: ["CPE-0304"] },
+        { id: "AGE-337", nombre: "Gerencia de Negocios", requiere: ["AGE-102"] },
+        { id: "AGE-113", nombre: "Desarrollo Gerencial", requiere: ["AGE-102"] }
       ],
       "Sexto Período": [
-        { id: "CPE-0906", nombre: "Contabilidad de Sociedades", requiere: ["CPE-0505"] },
+        { id: "CPE-0906", nombre: "Contabilidad de Sociedades Mercantiles", requiere: ["CPE-0505", "CPE-0103"] },
         { id: "CPE-1006", nombre: "Costos Industriales", requiere: ["CPE-0505"] },
-        { id: "AGE-194", nombre: "Finanzas Públicas", requiere: ["CPE-0505"] },
-        { id: "AGE-113", nombre: "Desarrollo de Capital Humano", requiere: ["AGE-113"] }
+        { id: "CPE-1106", nombre: "Análisis de Estados Financieros", requiere: ["CPE-0505"] },
+        { id: "AGE-194", nombre: "Análisis cuantitativo I", requiere: ["DET-385"] },
+        { id: "AGE-215", nombre: "Desarrollo de Capital Humano", requiere: ["AGE-113"] }
       ],
       "Séptimo Período": [
         { id: "CPE-1207", nombre: "Contabilidad Avanzada", requiere: ["CPE-0906"] },
         { id: "CPE-1307", nombre: "Costos Gerenciales", requiere: ["CPE-1006"] },
-        { id: "CPE-1407", nombre: "Finanzas Corporativas", requiere: ["AGE-194"] },
+        { id: "CPE-1407", nombre: "Finanzas Corporativas", requiere: ["CPE-1106"] },
         { id: "CPE-1507", nombre: "Contabilidad Gubernamental", requiere: ["CPE-0906"] }
       ],
       "Octavo Período": [
         { id: "CPE-1608", nombre: "Contabilidad Gerencial", requiere: ["CPE-1307"] },
-        { id: "CPE-1708", nombre: "Informática Aplicada", requiere: ["CPE-1507"] },
+        { id: "CPE-1708", nombre: "Informática Aplicada", requiere: ["CPE-1407"] },
+        { id: "CE-176", nombre: "Finanzas Públicas", requiere: ["CPE-1507"] },
         { id: "CPE-1808", nombre: "Fundamentos de Auditoría", requiere: ["CPE-1407"] }
       ],
       "Noveno Período": [
-        { id: "CPE-1909", nombre: "Seminario Tributario", requiere: ["CPE-1808"] },
-        { id: "CPE-2009", nombre: "Métodos y Técnicas de Investigación", requiere: ["CE-176"] },
+        { id: "CPE-1909", nombre: "Seminario Tributario Contable", requiere: ["CPE-1808"] },
+        { id: "CE-094", nombre: "Métodos y Técnicas de Investigación", requiere: ["CE-176"] },
+        { id: "CPE-2009", nombre: "Mercado de Dinero y Capitales", requiere: ["CE-176"] },
         { id: "CPE-2109", nombre: "Auditoría Financiera", requiere: ["CPE-1808"] }
       ],
       "Décimo Período": [
-        { id: "CPE-2209", nombre: "Estrategias Financieras", requiere: ["CPE-2009"] },
-        { id: "CPE-2309", nombre: "Organización Administrativa", requiere: ["CE-094"] },
-        { id: "CPE-2409", nombre: "Contabilidad Internacional", requiere: ["CPE-2009"] },
-        { id: "CPE-2509", nombre: "Auditoría Interna", requiere: ["CPE-2109"] }
+        { id: "CPE-2210", nombre: "Estrategias Financieras y Fiscales", requiere: ["CPE-2009"] },
+        { id: "CPE-2310", nombre: "Organización Administrativa y Financiera", requiere: ["CE-094"] },
+        { id: "CPE-2410", nombre: "Contabilidad para Entidades Reguladas", requiere: ["CPE-2009"] },
+        { id: "CPE-2510", nombre: "Auditoría Interna", requiere: ["CPE-2109"] }
       ],
       "Undécimo Período": [
         { id: "CPE-2611", nombre: "Sistema de Gestión de Riesgos", requiere: ["CPE-2410"] },
-        { id: "CPE-2711", nombre: "Normativa Contable Nacional", requiere: ["CPE-2510"] },
+        { id: "CPE-2711", nombre: "Normativa Contable Internacional", requiere: ["CPE-2510"] },
         { id: "CPE-2811", nombre: "Auditoría de Entidades Reguladas", requiere: ["CPE-2510"] },
         { id: "CPE-2911", nombre: "Ética Profesional", requiere: ["CPE-2510"] }
       ],
       "Duodécimo Período": [
-        { id: "CPE-3012", nombre: "Evaluación de Proyectos de Inversión", requiere: ["CPE-2811"] },
+        { id: "CPE-3012", nombre: " Análisis y Evaluación de Proyectos de Inversión", requiere: ["CPE-2811"] },
         { id: "CPE-3112", nombre: "Investigación Financiera", requiere: ["CPE-2711"] },
         { id: "CPE-3212", nombre: "Auditoría de Sistemas Informáticos", requiere: ["CPE-2811"] },
         { id: "CPE-3312", nombre: "Gestión Integral de Riesgo", requiere: ["CPE-2611"] }
       ],
       "Décimo Tercer Período": [
-        { id: "CPE-3413", nombre: "Proyecto de Investigación", requiere: ["CPE-3012", "CPE-3112", "CPE-3212", "CPE-3312"] }
+        { id: "CPE-3413", nombre: "Proyecto de Investigación", requiere: ["CPE-3012", "CPE-3112", "CPE-3212", "CPE-3312", "CPE-2611"] }
       ]
     };
 
