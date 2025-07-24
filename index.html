@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Curricular - Contaduría Pública y Finanzas UNAH</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f6fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2b4c7e;
+      margin-bottom: 40px;
+    }
+    .malla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .ciclo {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .ciclo h2 {
+      text-align: center;
+      color: #3d6ba7;
+      margin-bottom: 15px;
+    }
+    .materia {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      background-color: #e2eefc;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s;
+    }
+    .materia.aprobada {
+      background-color: #b6e2a1;
+      text-decoration: line-through;
+    }
+    .materia.bloqueada {
+      background-color: #ddd;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .materia[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      top: -5px;
+      left: 105%;
+      background: #333;
+      color: #fff;
+      padding: 5px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Malla Curricular - Contaduría Pública y Finanzas (UNAH)</h1>
+
+<div class="malla" id="malla"></div>
+
+<script>
+const materias = {
+  "1er Ciclo": [
+    { id: "metcuan1", nombre: "Métodos Cuantitativos I" },
+    { id: "conta1", nombre: "Contabilidad I" },
+    { id: "introeco", nombre: "Introducción a la Economía" }
+  ],
+  "2do Ciclo": [
+    { id: "metcuan2", nombre: "Métodos Cuantitativos II", requiere: ["metcuan1"] },
+    { id: "conta2", nombre: "Contabilidad II", requiere: ["conta1"] },
+    { id: "micro", nombre: "Microeconomía", requiere: ["introeco"] }
+  ],
+  "3er Ciclo": [
+    { id: "costos1", nombre: "Contabilidad de Costos I", requiere: ["conta2"] },
+    { id: "macro", nombre: "Macroeconomía", requiere: ["micro"] }
+  ]
+};
+
+const aprobadas = JSON.parse(localStorage.getItem("materiasAprobadas") || "[]");
+
+function guardarProgreso() {
+  localStorage.setItem("materiasAprobadas", JSON.stringify(aprobadas));
+}
+
+function crearMateria(materia) {
+  const div = document.createElement("div");
+  div.className = "materia";
+  div.textContent = materia.nombre;
+
+  const requisitos = materia.requiere || [];
+  const faltantes = requisitos.filter(req => !aprobadas.includes(req));
+
+  if (aprobadas.includes(materia.id)) {
+    div.classList.add("aprobada");
+  } else if (faltantes.length > 0) {
+    div.classList.add("bloqueada");
+    const nombres = faltantes.map(id => buscarNombreMateria(id)).join(", ");
+    div.setAttribute("title", `Requiere: ${nombres}`);
+  }
+
+  div.addEventListener("click", () => {
+    if (div.classList.contains("bloqueada")) return;
+
+    if (aprobadas.includes(materia.id)) {
+      aprobadas.splice(aprobadas.indexOf(materia.id), 1);
+      div.classList.remove("aprobada");
+    } else {
+      aprobadas.push(materia.id);
+      div.classList.add("aprobada");
+    }
+
+    guardarProgreso();
+    renderMalla(); // Volver a renderizar para activar nuevas materias
+  });
+
+  return div;
+}
+
+function buscarNombreMateria(id) {
+  for (let ciclo in materias) {
+    const match = materias[ciclo].find(m => m.id === id);
+    if (match) return match.nombre;
+  }
+  return "Materia desconocida";
+}
+
+function renderMalla() {
+  const contenedor = document.getElementById("malla");
+  contenedor.innerHTML = "";
+
+  for (let ciclo in materias) {
+    const divCiclo = document.createElement("div");
+    divCiclo.className = "ciclo";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = ciclo;
+    divCiclo.appendChild(titulo);
+
+    materias[ciclo].forEach(materia => {
+      const divMateria = crearMateria(materia);
+      divCiclo.appendChild(divMateria);
+    });
+
+    contenedor.appendChild(divCiclo);
+  }
+}
+
+renderMalla();
+</script>
+
+</body>
+</html>
